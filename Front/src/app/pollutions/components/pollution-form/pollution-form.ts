@@ -6,7 +6,8 @@ import {Pollution} from '../../models/pollution.model';
 import {CreatePollutionDto, UpdatePollutionDto} from '../../models/pollution.dto';
 import {POLLUTION_TYPES} from '../../models/pollution.constants';
 import {PollutionRecap} from '../pollution-recap/pollution-recap';
-import { isAfter, endOfDay, parseISO, format } from 'date-fns';
+import {ImageUpload} from '../image-upload/image-upload';
+import {isAfter, endOfDay, parseISO, format} from 'date-fns';
 
 function noFutureDateValidator(control: AbstractControl): ValidationErrors | null {
   if (!control.value) {
@@ -28,7 +29,8 @@ function noFutureDateValidator(control: AbstractControl): ValidationErrors | nul
   imports: [
     ReactiveFormsModule,
     PollutionRecap,
-    RouterLink
+    RouterLink,
+    ImageUpload
   ],
   templateUrl: './pollution-form.html',
   styleUrl: './pollution-form.scss'
@@ -167,5 +169,13 @@ export class PollutionForm implements OnInit {
   hasError(controlName: string, errorType: string): boolean {
     const control = this.pollutionForm.get(controlName);
     return control ? control.hasError(errorType) && control.touched : false;
+  }
+
+  handleImageSelected(base64Image: string) {
+    this.pollutionForm.patchValue({photoUrl: base64Image});
+  }
+
+  getCurrentPhotoUrl(): string | null {
+    return this.pollutionForm.get('photoUrl')?.value || null;
   }
 }

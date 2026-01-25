@@ -1,0 +1,45 @@
+<div class="image-upload-container">
+  @if (!hasImage()) {
+    <div
+      class="drop-zone"
+      [class.drag-over]="isDragOver()"
+      (dragover)="handleDragOver($event)"
+      (dragleave)="handleDragLeave($event)"
+      (drop)="handleDrop($event)"
+      (click)="fileInput.click()">
+
+      @if (isLoading()) {
+        <div class="loading-indicator">
+          <span>Chargement...</span>
+        </div>
+      } @else {
+        <div class="drop-zone-content">
+          <span class="upload-icon">📷</span>
+          <p class="drop-zone-text">Glissez une image ici</p>
+          <p class="drop-zone-subtext">ou cliquez pour sélectionner</p>
+          <p class="drop-zone-info">JPG, PNG, WebP, GIF - Max 10 MB</p>
+        </div>
+      }
+    </div>
+  }
+
+  @if (hasImage()) {
+    <div class="preview-container">
+      <img [src]="getDisplayImageUrl()" alt="Preview" class="preview-image" />
+      <button type="button" class="remove-button" (click)="removeImage()">
+        Supprimer
+      </button>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  <input
+    #fileInput
+    type="file"
+    accept="image/jpeg,image/png,image/webp,image/gif"
+    (change)="handleFileSelect($event)"
+    hidden />
+</div>

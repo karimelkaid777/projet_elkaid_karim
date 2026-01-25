@@ -122,14 +122,11 @@
     </div>
 
     <div class="form-group">
-      <label for="photoUrl">Photo (URL)</label>
-      <input
-        type="url"
-        id="photoUrl"
-        formControlName="photoUrl"
-        placeholder="Ex: https://example.com/photo.jpg"
-      >
-      <small>Optionnel - URL de la photo de la pollution</small>
+      <label>Photo</label>
+      <app-image-upload
+        [currentImageUrl]="getCurrentPhotoUrl()"
+        (imageSelected)="handleImageSelected($event)" />
+      <small>Optionnel - Glissez ou sélectionnez une photo de la pollution</small>
     </div>
 
       <div class="form-actions">

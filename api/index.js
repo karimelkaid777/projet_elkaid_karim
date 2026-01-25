@@ -13,10 +13,11 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
-app.use(express.json());
+// Limite augmentée à 15MB pour supporter les images en Base64
+app.use(express.json({ limit: '15mb' }));
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
 // simple route
 app.get("/", (req, res) => {
@@ -25,7 +26,7 @@ app.get("/", (req, res) => {
 
 const db = require("./models");
 
-db.sequelize.sync()
+db.sequelize.sync({ alter: true })
   .then(() => {
     console.log("Synced db.");
   })

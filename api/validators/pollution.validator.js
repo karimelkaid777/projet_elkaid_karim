@@ -45,8 +45,6 @@ const createPollutionSchema = z.object({
         .or(z.string().regex(/^-?\d+\.?\d*$/).transform(Number)),
 
     photoUrl: z.string()
-        .url("L'URL de la photo est invalide")
-        .max(500, "L'URL ne peut pas dépasser 500 caractères")
         .optional()
         .or(z.literal(''))
 });
@@ -91,8 +89,6 @@ const updatePollutionSchema = z.object({
         .optional(),
 
     photoUrl: z.string()
-        .url("L'URL de la photo est invalide")
-        .max(500, "L'URL ne peut pas dépasser 500 caractères")
         .optional()
         .or(z.literal(''))
 }).strict();
