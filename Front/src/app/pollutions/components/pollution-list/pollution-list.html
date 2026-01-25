@@ -1,8 +1,8 @@
 <div class="list-container">
   <div class="page-header">
-    <h2>Liste des Pollutions</h2>
+    <h2>Liste des pollutions</h2>
     <a routerLink="/pollutions/new" class="btn-create">
-      ➕ Signaler une pollution
+      <span class="btn-icon">+</span> Signaler une pollution
     </a>
   </div>
 
@@ -42,19 +42,22 @@
         <a [routerLink]="['/pollutions/detail', pollution.id]" class="pollution-card">
           <div class="card-header">
             <span class="type-icon">{{ getTypeIcon(pollution.type) }}</span>
+            <span class="type-badge">{{ pollution.type }}</span>
           </div>
 
           <h3>{{ pollution.title }}</h3>
           <p class="location">📍 {{ pollution.location }}</p>
-          <p class="description">{{ pollution.description }}</p>
+          <p class="date">📅 {{ formatDate(pollution.dateObservation) }}</p>
 
           <div class="card-actions">
             <button
+              appLoadingButton
+              [loading]="favoriteLoadingId() === pollution.id"
               class="btn-favorite"
               [class.is-favorite]="isFavorite()(pollution.id)"
               [class.requires-login]="!isAuthenticated()"
-              (click)="toggleFavorite(pollution, $event)"
-              [title]="!isAuthenticated() ? 'Connectez-vous pour ajouter aux favoris' : (isFavorite()(pollution.id) ? 'Retirer des favoris' : 'Ajouter aux favoris')">
+              [title]="!isAuthenticated() ? 'Connectez-vous pour ajouter aux favoris' : (isFavorite()(pollution.id) ? 'Retirer des favoris' : 'Ajouter aux favoris')"
+              (click)="toggleFavorite(pollution); $event.stopPropagation(); $event.preventDefault()">
               {{ isFavorite()(pollution.id) ? '⭐' : '☆' }}
             </button>
             <a
@@ -65,6 +68,8 @@
               ✏️
             </a>
             <button
+              appLoadingButton
+              [loading]="deleteLoadingId() === pollution.id"
               class="btn-delete"
               (click)="onDelete(pollution.id, $event)"
               title="Supprimer">

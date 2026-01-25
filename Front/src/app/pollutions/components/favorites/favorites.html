@@ -3,7 +3,11 @@
     <h2>Mes Favoris @if (isAuthenticated()) {({{ favoritesCount() }})}</h2>
     <div class="header-actions">
       @if (isAuthenticated() && favoritesCount() > 0) {
-        <button class="btn-clear" (click)="onClearAll()">
+        <button
+          appLoadingButton
+          [loading]="clearAllLoading()"
+          class="btn-clear"
+          (click)="onClearAll()">
           🗑️ Tout supprimer
         </button>
       }
@@ -47,18 +51,20 @@
         <a [routerLink]="['/pollutions/detail', pollution.id]" class="pollution-card">
           <div class="card-header">
             <span class="type-icon">{{ getTypeIcon(pollution.type) }}</span>
-            <span class="favorite-badge">⭐</span>
+            <span class="type-badge">{{ pollution.type }}</span>
           </div>
 
           <h3>{{ pollution.title }}</h3>
           <p class="location">📍 {{ pollution.location }}</p>
-          <p class="description">{{ pollution.description }}</p>
+          <p class="date">📅 {{ formatDate(pollution.dateObservation) }}</p>
 
           <div class="card-actions">
             <button
+              appLoadingButton
+              [loading]="removeLoadingId() === pollution.id"
               class="btn-remove"
-              (click)="onRemoveFavorite(pollution.id, $event)"
-              title="Retirer des favoris">
+              title="Retirer des favoris"
+              (click)="$event.stopPropagation(); $event.preventDefault(); onRemoveFavorite(pollution.id)">
               ❌ Retirer
             </button>
           </div>

@@ -3,6 +3,8 @@ import {Router, RouterLink} from '@angular/router';
 import {Store} from '@ngxs/store';
 import {Subject, Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {format} from 'date-fns';
+import {fr} from 'date-fns/locale';
 import {Pollution} from '../../models/pollution.model';
 import {PollutionFilterDto} from '../../models/pollution.dto';
 import {POLLUTION_TYPES} from '../../models/pollution.constants';
@@ -10,13 +12,15 @@ import {PollutionService} from '../../services/pollution';
 import {FormsModule} from '@angular/forms';
 import {FavoritesState} from '../../../shared/states/favorites.state';
 import {AuthState} from '../../../shared/states/auth.state';
-import {AddFavorite, RemoveFavorite} from '../../../shared/actions/favorites.actions';
+import {AddFavorite, RemoveFavorite, RemoveFavoriteLocal} from '../../../shared/actions/favorites.actions';
+import {LoadingButtonDirective} from '../../../shared/directives/loading-button';
 
 @Component({
   selector: 'app-pollution-list',
   imports: [
     FormsModule,
-    RouterLink
+    RouterLink,
+    LoadingButtonDirective
   ],
   templateUrl: './pollution-list.html',
   styleUrl: './pollution-list.scss'
@@ -38,6 +42,10 @@ export class PollutionList implements OnInit, OnDestroy {
   // Sélecteurs NGXS
   isFavorite = this.store.selectSignal(FavoritesState.isFavorite);
   isAuthenticated = this.store.selectSignal(AuthState.isAuthenticated);
+
+  // ID de la pollution en cours de modification de favori
+  favoriteLoadingId = signal<number | null>(null);
+  deleteLoadingId = signal<number | null>(null);
 
   private searchFiltersChanged$ = new Subject<PollutionFilterDto>();
   private dynamicSearchSubscription!: Subscription;
@@ -126,13 +134,19 @@ export class PollutionList implements OnInit, OnDestroy {
 
   onDelete(id: number, event: Event) {
     event.stopPropagation();
+    event.preventDefault();
 
     if (confirm('Êtes-vous sûr de vouloir supprimer cette pollution ?')) {
+      this.deleteLoadingId.set(id);
       this.pollutionService.deletePollution(id).subscribe({
         next: () => {
-          this.pollutions.update(list => list.filter(p => p.id !== id));
+          this.deleteLoadingId.set(null);
+          // Retirer aussi des favoris localement
+          this.store.dispatch(new RemoveFavoriteLocal(id));
+          this.loadPollutions();
         },
         error: (err) => {
+          this.deleteLoadingId.set(null);
           alert('Erreur lors de la suppression');
           console.error(err);
         }
@@ -160,21 +174,27 @@ export class PollutionList implements OnInit, OnDestroy {
     return type;
   }
 
-  toggleFavorite(pollution: Pollution, event: Event) {
-    event.stopPropagation();
-    event.preventDefault();
+  formatDate(date: Date | string): string {
+    const dateObject = typeof date === 'string' ? new Date(date) : date;
+    return format(dateObject, 'd MMM yyyy', {locale: fr});
+  }
 
-    // Si l'utilisateur n'est pas connecté, rediriger vers le login
+  toggleFavorite(pollution: Pollution) {
     if (!this.isAuthenticated()) {
       alert('Vous devez être connecté pour ajouter des favoris. Vous allez être redirigé vers la page de connexion.');
       this.router.navigate(['/users/login']);
       return;
     }
 
-    if (this.isFavorite()(pollution.id)) {
-      this.store.dispatch(new RemoveFavorite(pollution.id));
-    } else {
-      this.store.dispatch(new AddFavorite(pollution));
-    }
+    this.favoriteLoadingId.set(pollution.id);
+
+    const action = this.isFavorite()(pollution.id)
+      ? new RemoveFavorite(pollution.id)
+      : new AddFavorite(pollution);
+
+    this.store.dispatch(action).subscribe({
+      complete: () => this.favoriteLoadingId.set(null),
+      error: () => this.favoriteLoadingId.set(null)
+    });
   }
 }

@@ -1,92 +1,98 @@
 .recap-container {
   max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  margin: 0 auto;
 }
 
 .recap-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-8);
 
   h2 {
-    color: #10b981;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+    color: var(--color-success);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--space-2) 0;
   }
 
   .success-message {
-    color: #6b7280;
-    font-size: 1.1rem;
+    color: var(--color-gray-600);
+    font-size: var(--font-size-base);
+    margin: 0;
   }
 }
 
 .recap-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-gray-200);
+  padding: var(--space-8);
 }
 
 .recap-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid #e5e7eb;
-  margin-bottom: 1.5rem;
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-gray-200);
+  margin-bottom: var(--space-6);
+  gap: var(--space-4);
 
   h3 {
-    font-size: 1.5rem;
-    color: #1f2937;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-gray-900);
     margin: 0;
   }
 
   .type-badge {
-    background: #3b82f6;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
   }
 }
 
 .recap-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-6);
 
   h4 {
-    color: #374151;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    color: var(--color-gray-700);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-2) 0;
   }
 
   p {
-    color: #6b7280;
-    line-height: 1.6;
+    color: var(--color-gray-600);
+    line-height: var(--line-height-relaxed);
+    margin: 0;
   }
 }
 
 .recap-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .recap-item {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-1);
 
   .label {
-    font-weight: 600;
-    color: #374151;
-    font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-gray-700);
+    font-size: var(--font-size-sm);
   }
 
   .value {
-    color: #6b7280;
-    font-size: 1rem;
+    color: var(--color-gray-600);
+    font-size: var(--font-size-base);
   }
 }
 
@@ -96,58 +102,63 @@
     max-width: 100%;
     max-height: 400px;
     object-fit: contain;
-    border-radius: 8px;
-    margin: 0.5rem auto 0;
+    border-radius: var(--radius-lg);
+    margin: var(--space-2) auto 0;
+    border: 1px solid var(--color-gray-200);
   }
 }
 
 .recap-footer {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #e5e7eb;
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-gray-200);
 
   .info-text {
-    margin: 0.5rem 0;
-    color: #6b7280;
-    font-size: 0.95rem;
+    margin: var(--space-2) 0;
+    color: var(--color-gray-600);
+    font-size: var(--font-size-sm);
 
     strong {
-      color: #374151;
+      color: var(--color-gray-700);
+      font-weight: var(--font-weight-semibold);
     }
   }
 }
 
 .recap-actions {
-  margin-top: 2rem;
+  margin-top: var(--space-8);
   text-align: center;
 
   .btn {
-    padding: 0.75rem 2rem;
-    font-size: 1rem;
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--font-size-base);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
+    transition: all var(--transition-base);
+    font-weight: var(--font-weight-semibold);
 
     &.btn-primary {
-      background: #3b82f6;
-      color: white;
+      background: var(--color-primary);
+      color: var(--color-white);
 
       &:hover {
-        background: #2563eb;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+        background: var(--color-primary-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
       }
     }
   }
 }
 
 @media (max-width: 768px) {
+  .recap-card {
+    padding: var(--space-6);
+  }
+
   .recap-title {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
   }
 
   .recap-grid {

@@ -3,10 +3,11 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user';
 import { CreateUserDto } from '../../models/user.model';
+import { LoadingButtonDirective } from '../../../shared/directives/loading-button';
 
 @Component({
   selector: 'app-signup',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, LoadingButtonDirective],
   templateUrl: './signup.html',
   styleUrl: './signup.scss'
 })
@@ -64,6 +65,25 @@ export class Signup {
     }
   };
 
+  // Labels des champs pour les messages d'erreur
+  private readonly fieldLabels: Record<string, string> = {
+    nom: 'nom',
+    prenom: 'prénom',
+    login: 'login',
+    email: 'email',
+    pass: 'mot de passe'
+  };
+
+  // Hints pour guider l'utilisateur
+  readonly fieldHints: Record<string, string> = {
+    nom: 'Lettres, espaces, apostrophes et tirets uniquement',
+    prenom: 'Lettres, espaces, apostrophes et tirets uniquement',
+    login: '3-20 caractères : lettres, chiffres, points, tirets, underscores',
+    email: 'Exemple : nom@domaine.com',
+    pass: 'Min. 8 caractères avec 1 majuscule, 1 minuscule et 1 chiffre',
+    confirmPassword: 'Retapez votre mot de passe'
+  };
+
   /**
    * Valider un champ selon les règles du backend
    */
@@ -72,20 +92,27 @@ export class Signup {
     if (!rules) return null;
 
     const trimmedValue = value.trim();
+    const label = this.fieldLabels[fieldName] || fieldName;
 
     // Requis
     if (rules.required && !trimmedValue) {
-      return `Le ${fieldName} est obligatoire`;
+      return `Le ${label} est obligatoire`;
     }
 
     // Min length
     if ('minLength' in rules && trimmedValue.length < rules.minLength) {
-      return `Minimum ${rules.minLength} caractères requis`;
+      if (fieldName === 'login') {
+        return `Le login doit contenir au moins ${rules.minLength} caractères`;
+      }
+      if (fieldName === 'pass') {
+        return `Le mot de passe doit contenir au moins ${rules.minLength} caractères`;
+      }
+      return `Le ${label} doit contenir au moins ${rules.minLength} caractères`;
     }
 
     // Max length
     if (rules.maxLength && trimmedValue.length > rules.maxLength) {
-      return `Maximum ${rules.maxLength} caractères autorisés`;
+      return `Le ${label} ne peut pas dépasser ${rules.maxLength} caractères`;
     }
 
     // Pattern

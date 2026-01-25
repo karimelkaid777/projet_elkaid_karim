@@ -2,7 +2,7 @@
   <div class="container">
     <h1>{{ title }}</h1>
     <nav class="nav">
-      <a routerLink="/pollutions" routerLinkActive="active">Pollutions</a>
+      <a routerLink="/pollutions/list" routerLinkActive="active">Pollutions</a>
       <a routerLink="/pollutions/favorites" routerLinkActive="active" class="favorites-link">
         ⭐ Favoris
         @if (isAuthenticated() && favoritesCount() > 0) {

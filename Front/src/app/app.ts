@@ -16,7 +16,7 @@ export class App implements OnInit {
   private store = inject(Store);
   private router = inject(Router);
 
-  title = 'Gestion des Pollutions';
+  title = 'Gestion des pollutions';
 
   // Selectors NGXS
   isAuthenticated = this.store.selectSignal(AuthState.isAuthenticated);

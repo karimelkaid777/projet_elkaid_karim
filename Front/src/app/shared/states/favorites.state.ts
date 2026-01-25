@@ -13,6 +13,7 @@ import {
   AddFavoriteSuccess,
   AddFavoriteFailure,
   RemoveFavorite,
+  RemoveFavoriteLocal,
   RemoveFavoriteSuccess,
   RemoveFavoriteFailure,
   ClearFavorites,
@@ -176,6 +177,14 @@ export class FavoritesState {
       loading: false,
       error: action.error
     });
+  }
+
+  // Retirer un favori localement (sans appel API - utilisé quand une pollution est supprimée)
+  @Action(RemoveFavoriteLocal)
+  removeFavoriteLocal(ctx: StateContext<FavoritesStateModel>, action: RemoveFavoriteLocal) {
+    const state = ctx.getState();
+    const filtered = state.favorites.filter(p => p.id !== action.pollutionId);
+    ctx.patchState({ favorites: filtered });
   }
 
   // Supprimer tous les favoris

@@ -37,6 +37,12 @@ export class RemoveFavorite {
   constructor(public pollutionId: number) {}
 }
 
+// Action pour retirer un favori localement (sans appel API - utilisé quand une pollution est supprimée)
+export class RemoveFavoriteLocal {
+  static readonly type = '[Favorites] Remove Favorite Local';
+  constructor(public pollutionId: number) {}
+}
+
 export class RemoveFavoriteSuccess {
   static readonly type = '[Favorites] Remove Favorite Success';
   constructor(public pollutionId: number) {}

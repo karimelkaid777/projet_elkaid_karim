@@ -8,10 +8,11 @@ import {fr} from 'date-fns/locale';
 import {FavoritesState} from '../../../shared/states/favorites.state';
 import {AuthState} from '../../../shared/states/auth.state';
 import {AddFavorite, RemoveFavorite} from '../../../shared/actions/favorites.actions';
+import {LoadingButtonDirective} from '../../../shared/directives/loading-button';
 
 @Component({
   selector: 'app-pollution-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, LoadingButtonDirective],
   templateUrl: './pollution-detail.html',
   styleUrl: './pollution-detail.scss'
 })
@@ -24,10 +25,12 @@ export class PollutionDetail implements OnInit {
   pollution = signal<Pollution | null>(null);
   loading = signal(true);
   error = signal<string | null>(null);
+  deleteLoading = signal(false);
 
   // Sélecteurs NGXS
   isFavorite = this.store.selectSignal(FavoritesState.isFavorite);
   isAuthenticated = this.store.selectSignal(AuthState.isAuthenticated);
+  favoriteLoading = signal(false);
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -63,11 +66,14 @@ export class PollutionDetail implements OnInit {
   onDelete() {
     const pollution = this.pollution();
     if (pollution && confirm('Êtes-vous sûr de vouloir supprimer cette pollution ?')) {
+      this.deleteLoading.set(true);
       this.pollutionService.deletePollution(pollution.id).subscribe({
         next: () => {
+          this.deleteLoading.set(false);
           this.router.navigate(['/pollutions/list']);
         },
         error: (err) => {
+          this.deleteLoading.set(false);
           alert('Erreur lors de la suppression');
           console.error(err);
         }
@@ -88,17 +94,21 @@ export class PollutionDetail implements OnInit {
     const pollution = this.pollution();
     if (!pollution) return;
 
-    // Si l'utilisateur n'est pas connecté, rediriger vers le login
     if (!this.isAuthenticated()) {
       alert('Vous devez être connecté pour ajouter des favoris. Vous allez être redirigé vers la page de connexion.');
       this.router.navigate(['/users/login']);
       return;
     }
 
-    if (this.isFavorite()(pollution.id)) {
-      this.store.dispatch(new RemoveFavorite(pollution.id));
-    } else {
-      this.store.dispatch(new AddFavorite(pollution));
-    }
+    this.favoriteLoading.set(true);
+
+    const action = this.isFavorite()(pollution.id)
+      ? new RemoveFavorite(pollution.id)
+      : new AddFavorite(pollution);
+
+    this.store.dispatch(action).subscribe({
+      complete: () => this.favoriteLoading.set(false),
+      error: () => this.favoriteLoading.set(false)
+    });
   }
 }
