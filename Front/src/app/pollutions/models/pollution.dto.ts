@@ -1,4 +1,4 @@
-import {PollutionType} from './pollution.model';
+import {PollutionCreator, PollutionType} from './pollution.model';
 
 export interface CreatePollutionDto {
   title: string;
@@ -9,6 +9,7 @@ export interface CreatePollutionDto {
   latitude: number;
   longitude: number;
   photoUrl?: string;
+  createdBy: PollutionCreator;
 }
 
 export interface UpdatePollutionDto {

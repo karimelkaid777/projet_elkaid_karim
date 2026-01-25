@@ -29,4 +29,7 @@ db.favoris.belongsTo(db.pollution, { foreignKey: 'pollution_id', as: 'pollution'
 db.utilisateurs.hasMany(db.favoris, { foreignKey: 'utilisateur_id', as: 'favoris' });
 db.pollution.hasMany(db.favoris, { foreignKey: 'pollution_id', as: 'favoris' });
 
+db.pollution.belongsTo(db.utilisateurs, { foreignKey: 'created_by', as: 'createur' });
+db.utilisateurs.hasMany(db.pollution, { foreignKey: 'created_by', as: 'pollutions' });
+
 module.exports = db;

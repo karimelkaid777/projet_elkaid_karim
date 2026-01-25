@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import {Pollution} from '../models/pollution.model';
+import {Pollution, PollutionCreator} from '../models/pollution.model';
 import {CreatePollutionDto, UpdatePollutionDto, PollutionFilterDto} from '../models/pollution.dto';
 
 // Interface pour les données du backend (camelCase)
@@ -17,6 +17,7 @@ interface PollutionBackend {
   latitude: number;
   longitude: number;
   photoUrl?: string;
+  createdBy: PollutionCreator;
 }
 
 @Injectable({
@@ -37,7 +38,8 @@ export class PollutionService {
       location: data.location,
       latitude: data.latitude,
       longitude: data.longitude,
-      photoUrl: data.photoUrl
+      photoUrl: data.photoUrl,
+      createdBy: data.createdBy,
     };
   }
 

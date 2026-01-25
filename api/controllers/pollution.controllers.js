@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require ("uuid");
 
 const db = require("../models");
 const Pollution = db.pollution;
+const Utilisateurs = db.utilisateurs;
 const Op = db.Sequelize.Op;
 
 exports.get = (req, res) => {
@@ -21,7 +22,14 @@ exports.get = (req, res) => {
         };
     }
 
-    Pollution.findAll({ where: whereClause })
+    Pollution.findAll({
+        where: whereClause,
+        include: [{
+            model: Utilisateurs,
+            as: 'createur',
+            attributes: ['id', 'nom', 'prenom']
+        }]
+    })
         .then(data => {
             // Conversion des données BDD vers format frontend
             const formattedData = data.map(pollution => ({
@@ -33,7 +41,12 @@ exports.get = (req, res) => {
                 location: pollution.lieu,
                 latitude: pollution.latitude,
                 longitude: pollution.longitude,
-                photoUrl: pollution.photo_url
+                photoUrl: pollution.photo_url,
+                createdBy: pollution.createur ? {
+                    id: pollution.createur.id,
+                    nom: pollution.createur.nom,
+                    prenom: pollution.createur.prenom
+                } : null
             }));
             res.send(formattedData);
         })
@@ -48,7 +61,13 @@ exports.get = (req, res) => {
 exports.getById = (req, res) => {
     const id = req.params.id;
 
-    Pollution.findByPk(id)
+    Pollution.findByPk(id, {
+        include: [{
+            model: Utilisateurs,
+            as: 'createur',
+            attributes: ['id', 'nom', 'prenom']
+        }]
+    })
         .then(data => {
             if (data) {
                 // Conversion vers format frontend
@@ -61,7 +80,12 @@ exports.getById = (req, res) => {
                     location: data.lieu,
                     latitude: data.latitude,
                     longitude: data.longitude,
-                    photoUrl: data.photo_url
+                    photoUrl: data.photo_url,
+                    createdBy: data.createur ? {
+                        id: data.createur.id,
+                        nom: data.createur.nom,
+                        prenom: data.createur.prenom
+                    } : null
                 };
                 res.send(formattedData);
             } else {
@@ -89,11 +113,22 @@ exports.create = (req, res) => {
         lieu: req.body.location,
         latitude: req.body.latitude,
         longitude: req.body.longitude,
-        photo_url: req.body.photoUrl
+        photo_url: req.body.photoUrl,
+        created_by: req.user.id
     };
 
     // Save to database
     Pollution.create(pollution)
+        .then(data => {
+            // Récupérer la pollution avec les infos du créateur
+            return Pollution.findByPk(data.id, {
+                include: [{
+                    model: Utilisateurs,
+                    as: 'createur',
+                    attributes: ['id', 'nom', 'prenom']
+                }]
+            });
+        })
         .then(data => {
             // Conversion BDD vers frontend
             const formattedData = {
@@ -105,7 +140,12 @@ exports.create = (req, res) => {
                 location: data.lieu,
                 latitude: data.latitude,
                 longitude: data.longitude,
-                photoUrl: data.photo_url
+                photoUrl: data.photo_url,
+                createdBy: data.createur ? {
+                    id: data.createur.id,
+                    nom: data.createur.nom,
+                    prenom: data.createur.prenom
+                } : null
             };
             res.status(201).send(formattedData);
         })
@@ -137,7 +177,13 @@ exports.update = (req, res) => {
         .then(num => {
             if (num == 1) {
                 // Récupérer l'objet mis à jour pour le renvoyer
-                Pollution.findByPk(id)
+                Pollution.findByPk(id, {
+                    include: [{
+                        model: Utilisateurs,
+                        as: 'createur',
+                        attributes: ['id', 'nom', 'prenom']
+                    }]
+                })
                     .then(data => {
                         // Conversion BDD vers frontend
                         const formattedData = {
@@ -149,7 +195,12 @@ exports.update = (req, res) => {
                             location: data.lieu,
                             latitude: data.latitude,
                             longitude: data.longitude,
-                            photoUrl: data.photo_url
+                            photoUrl: data.photo_url,
+                            createdBy: data.createur ? {
+                                id: data.createur.id,
+                                nom: data.createur.nom,
+                                prenom: data.createur.prenom
+                            } : null
                         };
                         res.send(formattedData);
                     });

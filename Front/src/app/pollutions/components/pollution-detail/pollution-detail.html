@@ -54,6 +54,11 @@
           <span class="label">Coordonnées GPS</span>
           <span class="value">🌍 Lat: {{ pollution()!.latitude }}, Long: {{ pollution()!.longitude }}</span>
         </div>
+
+        <div class="info-item">
+          <span class="label">Découvert par</span>
+          <span class="value">👤 {{ pollution()!.createdBy.prenom }} {{ pollution()!.createdBy.nom }}</span>
+        </div>
       </div>
 
       <div class="description-section">

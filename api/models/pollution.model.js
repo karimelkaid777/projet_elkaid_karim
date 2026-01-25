@@ -31,6 +31,10 @@ module.exports = (sequelize, Sequelize) => {
         },
         photo_url: {
             type: Sequelize.TEXT
+        },
+        created_by: {
+            type: Sequelize.STRING,
+            allowNull: true
         }
     });
 

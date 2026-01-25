@@ -64,7 +64,8 @@ export const mockBackendInterceptor: HttpInterceptorFn = (req, next) => {
       location: createDto.location,
       latitude: createDto.latitude,
       longitude: createDto.longitude,
-      photoUrl: createDto.photoUrl
+      photoUrl: createDto.photoUrl,
+      createdBy: createDto.createdBy
     };
 
     pollutionsDB.push(newPollution);

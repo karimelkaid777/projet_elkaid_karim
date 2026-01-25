@@ -10,7 +10,12 @@ export const MOCK_POLLUTIONS: Pollution[] = [
     location: 'Rivière Seine, Paris 15ème',
     latitude: 48.8566,
     longitude: 2.3522,
-    photoUrl: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800'
+    photoUrl: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800',
+    createdBy: {
+      id: 'user123',
+      nom: 'Dupont',
+      prenom: 'Jean'
+    }
   },
   {
     id: 2,
@@ -21,7 +26,12 @@ export const MOCK_POLLUTIONS: Pollution[] = [
     location: 'Zone industrielle, Lyon',
     latitude: 45.764,
     longitude: 4.8357,
-    photoUrl: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800'
+    photoUrl: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800',
+    createdBy: {
+      id: 'user456',
+      nom: 'Martin',
+      prenom: 'Sophie'
+    }
   },
   {
     id: 3,
@@ -31,7 +41,12 @@ export const MOCK_POLLUTIONS: Pollution[] = [
     dateObservation: new Date('2025-10-20'),
     location: 'Terrain vague, Marseille',
     latitude: 43.2965,
-    longitude: 5.3698
+    longitude: 5.3698,
+    createdBy: {
+      id: 'user789',
+      nom: 'Lefevre',
+      prenom: 'Claire'
+    }
   },
   {
     id: 4,
@@ -42,7 +57,12 @@ export const MOCK_POLLUTIONS: Pollution[] = [
     location: 'Canal de l\'Ourcq, Paris',
     latitude: 48.8838,
     longitude: 2.3883,
-    photoUrl: 'https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800'
+    photoUrl: 'https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800',
+    createdBy: {
+      id: 'user321',
+      nom: 'Bernard',
+      prenom: 'Luc'
+    }
   },
   {
     id: 5,
@@ -53,7 +73,12 @@ export const MOCK_POLLUTIONS: Pollution[] = [
     location: 'Côte Méditerranéenne, Nice',
     latitude: 43.7102,
     longitude: 7.2620,
-    photoUrl: 'https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800'
+    photoUrl: 'https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800',
+    createdBy: {
+      id: 'user654',
+      nom: 'Dubois',
+      prenom: 'Emma'
+    }
   },
   {
     id: 6,
@@ -63,7 +88,12 @@ export const MOCK_POLLUTIONS: Pollution[] = [
     dateObservation: new Date('2025-10-21'),
     location: 'Centre-ville, Toulouse',
     latitude: 43.6047,
-    longitude: 1.4442
+    longitude: 1.4442,
+    createdBy: {
+      id: 'user987',
+      nom: 'Moreau',
+      prenom: 'Lucas'
+    }
   },
   {
     id: 7,
@@ -73,7 +103,12 @@ export const MOCK_POLLUTIONS: Pollution[] = [
     dateObservation: new Date('2025-10-17'),
     location: 'Plaine agricole, Bordeaux',
     latitude: 44.8378,
-    longitude: -0.5792
+    longitude: -0.5792,
+    createdBy: {
+      id: 'user159',
+      nom: 'Girard',
+      prenom: 'Chloé'
+    }
   },
   {
     id: 8,
@@ -84,6 +119,11 @@ export const MOCK_POLLUTIONS: Pollution[] = [
     location: 'Plage de Biarritz',
     latitude: 43.4832,
     longitude: -1.5586,
-    photoUrl: 'https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800'
+    photoUrl: 'https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800',
+    createdBy: {
+      id: 'user753',
+      nom: 'Roux',
+      prenom: 'Anaïs'
+    }
   }
 ];
