@@ -1,0 +1,69 @@
+<div class="favorites-container">
+  <div class="page-header">
+    <h2>Mes Favoris @if (isAuthenticated()) {({{ favoritesCount() }})}</h2>
+    <div class="header-actions">
+      @if (isAuthenticated() && favoritesCount() > 0) {
+        <button class="btn-clear" (click)="onClearAll()">
+          🗑️ Tout supprimer
+        </button>
+      }
+      <a routerLink="/pollutions" class="btn-back">
+        ← Retour à la liste
+      </a>
+    </div>
+  </div>
+
+  @if (!isAuthenticated()) {
+    <!-- Message pour utilisateurs non connectés -->
+    <div class="auth-required-state">
+      <div class="auth-icon">⭐</div>
+      <h3>Connectez-vous pour utiliser les favoris</h3>
+      <p class="description">
+        Créez un compte gratuit pour sauvegarder vos pollutions favorites.
+      </p>
+      <div class="cta-buttons">
+        <a routerLink="/users/signup" class="btn-primary">
+          Créer un compte
+        </a>
+        <a routerLink="/users/login" class="btn-secondary">
+          Se connecter
+        </a>
+      </div>
+    </div>
+  } @else if (favoritesCount() === 0) {
+    <!-- Message pour utilisateurs connectés sans favoris -->
+    <div class="empty-state">
+      <div class="empty-icon">⭐</div>
+      <h3>Aucun favori</h3>
+      <p>Ajoutez des pollutions à vos favoris pour les retrouver facilement ici.</p>
+      <a routerLink="/pollutions" class="btn-primary">
+        Voir toutes les pollutions
+      </a>
+    </div>
+  } @else {
+    <!-- Liste des favoris -->
+    <div class="pollution-grid">
+      @for (pollution of favorites(); track pollution.id) {
+        <a [routerLink]="['/pollutions/detail', pollution.id]" class="pollution-card">
+          <div class="card-header">
+            <span class="type-icon">{{ getTypeIcon(pollution.type) }}</span>
+            <span class="favorite-badge">⭐</span>
+          </div>
+
+          <h3>{{ pollution.title }}</h3>
+          <p class="location">📍 {{ pollution.location }}</p>
+          <p class="description">{{ pollution.description }}</p>
+
+          <div class="card-actions">
+            <button
+              class="btn-remove"
+              (click)="onRemoveFavorite(pollution.id, $event)"
+              title="Retirer des favoris">
+              ❌ Retirer
+            </button>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</div>

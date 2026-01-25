@@ -1,0 +1,72 @@
+<div class="detail-container">
+  @if (loading()) {
+    <div class="loading">Chargement en cours...</div>
+  }
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+    <a routerLink="/pollutions/list" class="btn-back">← Retour à la liste</a>
+  }
+
+  @if (!loading() && !error() && pollution()) {
+    <div class="header-actions">
+      <a routerLink="/pollutions/list" class="btn-back">← Retour</a>
+      <div class="actions">
+        <button
+          (click)="toggleFavorite()"
+          class="btn btn-favorite"
+          [class.is-favorite]="isFavorite()(pollution()!.id)"
+          [class.requires-login]="!isAuthenticated()"
+          [title]="!isAuthenticated() ? 'Connectez-vous pour ajouter aux favoris' : (isFavorite()(pollution()!.id) ? 'Retirer des favoris' : 'Ajouter aux favoris')">
+          {{ isFavorite()(pollution()!.id) ? '⭐ En favoris' : '☆ Ajouter aux favoris' }}
+        </button>
+        <button (click)="onEdit()" class="btn btn-edit">
+          ✏️ Modifier
+        </button>
+        <button (click)="onDelete()" class="btn btn-delete">
+          🗑️ Supprimer
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <div class="card-header">
+        <h1>{{ pollution()!.title }}</h1>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">Type de pollution</span>
+          <span class="value">{{ getTypeLabel(pollution()!.type) }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Date d'observation</span>
+          <span class="value">📅 {{ formatDate(pollution()!.dateObservation) }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Localisation</span>
+          <span class="value">📍 {{ pollution()!.location }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Coordonnées GPS</span>
+          <span class="value">🌍 Lat: {{ pollution()!.latitude }}, Long: {{ pollution()!.longitude }}</span>
+        </div>
+      </div>
+
+      <div class="description-section">
+        <h3>Description détaillée</h3>
+        <p>{{ pollution()!.description }}</p>
+      </div>
+
+      @if (pollution()!.photoUrl) {
+        <div class="photo-section">
+          <h3>📷 Photo</h3>
+          <img [src]="pollution()!.photoUrl" [alt]="pollution()!.title" class="pollution-photo">
+        </div>
+      }
+    </div>
+  }
+</div>

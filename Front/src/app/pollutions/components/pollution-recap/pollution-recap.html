@@ -1,0 +1,56 @@
+<div class="recap-container">
+  <div class="recap-header">
+    <h2>✅ Pollution déclarée avec succès !</h2>
+    <p class="success-message">Merci pour votre déclaration. Voici le récapitulatif :</p>
+  </div>
+
+  <div class="recap-card">
+    <div class="recap-title">
+      <h3>{{ pollution.title }}</h3>
+      <span class="type-badge">{{ getTypeLabel(pollution.type) }}</span>
+    </div>
+
+    <div class="recap-section">
+      <h4>📝 Description</h4>
+      <p>{{ pollution.description }}</p>
+    </div>
+
+    <div class="recap-grid">
+      <div class="recap-item">
+        <span class="label">📅 Date d'observation</span>
+        <span class="value">{{ formatDate(pollution.dateObservation) }}</span>
+      </div>
+
+      <div class="recap-item">
+        <span class="label">📍 Lieu</span>
+        <span class="value">{{ pollution.location }}</span>
+      </div>
+
+      <div class="recap-item">
+        <span class="label">🌍 Coordonnées GPS</span>
+        <span class="value">
+          Lat: {{ pollution.latitude }}, Long: {{ pollution.longitude }}
+        </span>
+      </div>
+    </div>
+
+    @if (pollution.photoUrl) {
+      <div class="recap-section photo-section">
+        <h4>📷 Photo</h4>
+        <img [src]="pollution.photoUrl" [alt]="pollution.title" class="pollution-photo">
+      </div>
+    }
+
+    <div class="recap-footer">
+      <p class="info-text">
+        <strong>Numéro de déclaration :</strong> #{{ pollution.id }}
+      </p>
+    </div>
+  </div>
+
+  <div class="recap-actions">
+    <button class="btn btn-primary" (click)="onBackToList()">
+      ← Retour à la liste des pollutions
+    </button>
+  </div>
+</div>

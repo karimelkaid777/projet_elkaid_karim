@@ -1,0 +1,123 @@
+.header {
+  background: #2196F3;
+  color: white;
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+
+      a {
+        color: white;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        transition: background 0.3s;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        &.active {
+          background: rgba(255, 255, 255, 0.2);
+          font-weight: 500;
+        }
+
+        &.favorites-link {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+
+          .badge {
+            background: #ff4444;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 20px;
+            text-align: center;
+            animation: pulse 2s infinite;
+          }
+        }
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 4px;
+
+        .user-name {
+          font-weight: 500;
+          font-size: 0.9rem;
+        }
+
+        .logout-btn {
+          padding: 6px 12px;
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.3s;
+          font-size: 0.85rem;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+          }
+        }
+      }
+    }
+  }
+}
+
+.main-content {
+  min-height: calc(100vh - 140px);
+  background: #f5f5f5;
+}
+
+.footer {
+  background: #333;
+  color: white;
+  padding: 1.5rem 0;
+  text-align: center;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    p {
+      margin: 0;
+    }
+  }
+}

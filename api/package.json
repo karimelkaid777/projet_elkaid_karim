@@ -1,0 +1,33 @@
+{
+  "name": "backend-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodejs ./index.js",
+    "dev": "nodemon ./index.js",
+    "seed": "node ./seeders/pollution.seed.js",
+    "seed:users": "node ./seeders/utilisateurs.seed.js",
+    "seed:reset": "node ./seeders/reset.seed.js",
+    "seed:fresh": "node ./seeders/reset.seed.js && node ./seeders/pollution.seed.js && node ./seeders/utilisateurs.seed.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.0.1",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "pg-protocol": "^1.6.0",
+    "sequelize": "^6.33.0",
+    "uuid": "^9.0.1",
+    "zod": "^3.25.76",
+    "zod-express-middleware": "^1.4.0"
+  }
+}

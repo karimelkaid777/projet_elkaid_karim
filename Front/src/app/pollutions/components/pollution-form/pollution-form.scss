@@ -1,0 +1,138 @@
+.form-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 2rem;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #ecf0f1;
+
+    h2 {
+      margin: 0;
+      color: #2c3e50;
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #95a5a6;
+      cursor: pointer;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #e74c3c;
+      }
+    }
+  }
+
+  .error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+  }
+
+  form {
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+        font-weight: 600;
+      }
+
+      input, select, textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+
+        &:focus {
+          outline: none;
+          border-color: #3498db;
+        }
+
+        &.invalid {
+          border-color: #e74c3c;
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        font-family: inherit;
+      }
+
+      .error-text {
+        display: block;
+        color: #e74c3c;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+      }
+
+      small {
+        display: block;
+        color: #7f8c8d;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ecf0f1;
+
+      .btn {
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.3s;
+
+        &:hover:not(:disabled) {
+          opacity: 0.8;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        &.btn-secondary {
+          background-color: #95a5a6;
+          color: white;
+        }
+
+        &.btn-primary {
+          background-color: #27ae60;
+          color: white;
+        }
+      }
+    }
+  }
+}

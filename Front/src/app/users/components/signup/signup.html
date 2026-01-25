@@ -1,0 +1,157 @@
+<div class="signup-container">
+  <div class="signup-card">
+    <h2>Créer un compte</h2>
+
+    <form (ngSubmit)="onSubmit()" class="signup-form">
+      <div class="form-group">
+        <label for="login">Login *</label>
+        <input
+          type="text"
+          id="login"
+          [value]="login()"
+          (input)="login.set($any($event.target).value)"
+          (blur)="onLoginBlur()"
+          [class.error]="isFieldTouched('login') && validationErrors()['login']"
+          [class.valid]="isFieldTouched('login') && login() && !validationErrors()['login']"
+          required
+          placeholder="Choisissez un login"
+        />
+        @if (isFieldTouched('login') && validationErrors()['login']) {
+          <div class="field-error">❌ {{ validationErrors()['login'] }}</div>
+        }
+        @if (isFieldTouched('login') && login() && !validationErrors()['login']) {
+          <div class="field-success">✅ Login valide</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe *</label>
+        <input
+          type="password"
+          id="password"
+          [value]="password()"
+          (input)="password.set($any($event.target).value)"
+          (blur)="onPasswordBlur()"
+          [class.error]="isFieldTouched('pass') && validationErrors()['pass']"
+          [class.valid]="isFieldTouched('pass') && password() && !validationErrors()['pass']"
+          required
+          placeholder="Choisissez un mot de passe"
+        />
+        @if (isFieldTouched('pass') && validationErrors()['pass']) {
+          <div class="field-error">❌ {{ validationErrors()['pass'] }}</div>
+        }
+        @if (isFieldTouched('pass') && password() && !validationErrors()['pass']) {
+          <div class="field-success">✅ Mot de passe valide</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmation du mot de passe *</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          [value]="confirmPassword()"
+          (input)="confirmPassword.set($any($event.target).value)"
+          (blur)="onConfirmPasswordBlur()"
+          [class.error]="isFieldTouched('confirmPassword') && validationErrors()['confirmPassword']"
+          [class.valid]="isFieldTouched('confirmPassword') && confirmPassword() && !validationErrors()['confirmPassword'] && password() === confirmPassword()"
+          required
+          placeholder="Confirmez votre mot de passe"
+        />
+        @if (isFieldTouched('confirmPassword') && validationErrors()['confirmPassword']) {
+          <div class="field-error">❌ {{ validationErrors()['confirmPassword'] }}</div>
+        }
+        @if (isFieldTouched('confirmPassword') && confirmPassword() && !validationErrors()['confirmPassword'] && password() === confirmPassword()) {
+          <div class="field-success">✅ Les mots de passe correspondent</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="nom">Nom *</label>
+        <input
+          type="text"
+          id="nom"
+          [value]="nom()"
+          (input)="nom.set($any($event.target).value)"
+          (blur)="onNomBlur()"
+          [class.error]="isFieldTouched('nom') && validationErrors()['nom']"
+          [class.valid]="isFieldTouched('nom') && nom() && !validationErrors()['nom']"
+          required
+          placeholder="Entrez votre nom"
+        />
+        @if (isFieldTouched('nom') && validationErrors()['nom']) {
+          <div class="field-error">❌ {{ validationErrors()['nom'] }}</div>
+        }
+        @if (isFieldTouched('nom') && nom() && !validationErrors()['nom']) {
+          <div class="field-success">✅ Nom valide</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="prenom">Prénom *</label>
+        <input
+          type="text"
+          id="prenom"
+          [value]="prenom()"
+          (input)="prenom.set($any($event.target).value)"
+          (blur)="onPrenomBlur()"
+          [class.error]="isFieldTouched('prenom') && validationErrors()['prenom']"
+          [class.valid]="isFieldTouched('prenom') && prenom() && !validationErrors()['prenom']"
+          required
+          placeholder="Entrez votre prénom"
+        />
+        @if (isFieldTouched('prenom') && validationErrors()['prenom']) {
+          <div class="field-error">❌ {{ validationErrors()['prenom'] }}</div>
+        }
+        @if (isFieldTouched('prenom') && prenom() && !validationErrors()['prenom']) {
+          <div class="field-success">✅ Prénom valide</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input
+          type="email"
+          id="email"
+          [value]="email()"
+          (input)="email.set($any($event.target).value)"
+          (blur)="onEmailBlur()"
+          [class.error]="isFieldTouched('email') && validationErrors()['email']"
+          [class.valid]="isFieldTouched('email') && email() && !validationErrors()['email']"
+          required
+          placeholder="votre.email@exemple.com"
+        />
+        @if (isFieldTouched('email') && validationErrors()['email']) {
+          <div class="field-error">❌ {{ validationErrors()['email'] }}</div>
+        }
+        @if (isFieldTouched('email') && email() && !validationErrors()['email']) {
+          <div class="field-success">✅ Email valide</div>
+        }
+      </div>
+
+      @if (error()) {
+        <div class="error-message">
+          {{ error() }}
+        </div>
+      }
+
+      @if (success()) {
+        <div class="success-message">
+          Compte créé avec succès ! Redirection...
+        </div>
+      }
+
+      <button type="submit" [disabled]="loading() || success()">
+        @if (loading()) {
+          Création en cours...
+        } @else {
+          Créer mon compte
+        }
+      </button>
+    </form>
+
+    <div class="login-link">
+      <p>Vous avez déjà un compte ? <a routerLink="/users/login">Se connecter</a></p>
+    </div>
+  </div>
+</div>

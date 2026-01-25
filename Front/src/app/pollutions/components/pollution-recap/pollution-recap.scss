@@ -1,0 +1,155 @@
+.recap-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.recap-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h2 {
+    color: #10b981;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .success-message {
+    color: #6b7280;
+    font-size: 1.1rem;
+  }
+}
+
+.recap-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.recap-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e5e7eb;
+  margin-bottom: 1.5rem;
+
+  h3 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin: 0;
+  }
+
+  .type-badge {
+    background: #3b82f6;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+}
+
+.recap-section {
+  margin-bottom: 1.5rem;
+
+  h4 {
+    color: #374151;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #6b7280;
+    line-height: 1.6;
+  }
+}
+
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.recap-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+  }
+
+  .value {
+    color: #6b7280;
+    font-size: 1rem;
+  }
+}
+
+.photo-section {
+  .pollution-photo {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+  }
+}
+
+.recap-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+
+  .info-text {
+    margin: 0.5rem 0;
+    color: #6b7280;
+    font-size: 0.95rem;
+
+    strong {
+      color: #374151;
+    }
+  }
+}
+
+.recap-actions {
+  margin-top: 2rem;
+  text-align: center;
+
+  .btn {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+
+    &.btn-primary {
+      background: #3b82f6;
+      color: white;
+
+      &:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .recap-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .recap-grid {
+    grid-template-columns: 1fr;
+  }
+}

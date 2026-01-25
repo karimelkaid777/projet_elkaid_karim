@@ -1,0 +1,151 @@
+<div class="form-container">
+  @if (showForm()) {
+    <div class="header">
+      <h2>{{ isEditMode ? 'Modifier la pollution' : 'Signaler une nouvelle pollution' }}</h2>
+      <a routerLink="/pollutions/list" class="btn-close">✕</a>
+    </div>
+
+    @if (error()) {
+      <div class="error-message">{{ error() }}</div>
+    }
+
+    <form [formGroup]="pollutionForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Titre de la pollution *</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        placeholder="Ex: Déversement de déchets toxiques"
+        [class.invalid]="hasError('title', 'required') || hasError('title', 'minlength')"
+      >
+      @if (hasError('title', 'required')) {
+        <span class="error-text">Le titre est obligatoire</span>
+      }
+      @if (hasError('title', 'minlength')) {
+        <span class="error-text">Le titre doit contenir au moins 3 caractères</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="type">Type de pollution *</label>
+      <select id="type" formControlName="type">
+        @for (type of pollutionTypes; track type) {
+          <option [value]="type">{{ type }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description *</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        rows="5"
+        placeholder="Décrivez en détail la pollution observée..."
+        [class.invalid]="hasError('description', 'required') || hasError('description', 'minlength')"
+      ></textarea>
+      @if (hasError('description', 'required')) {
+        <span class="error-text">La description est obligatoire</span>
+      }
+      @if (hasError('description', 'minlength')) {
+        <span class="error-text">La description doit contenir au moins 10 caractères</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="dateObservation">Date de l'observation *</label>
+      <input
+        type="date"
+        id="dateObservation"
+        formControlName="dateObservation"
+        [class.invalid]="hasError('dateObservation', 'required') || hasError('dateObservation', 'futureDate')"
+      >
+      @if (hasError('dateObservation', 'required')) {
+        <span class="error-text">La date d'observation est obligatoire</span>
+      }
+      @if (hasError('dateObservation', 'futureDate')) {
+        <span class="error-text">La date ne peut pas être dans le futur</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="location">Lieu *</label>
+      <input
+        type="text"
+        id="location"
+        formControlName="location"
+        placeholder="Ex: 123 Rue de la République, Paris"
+        [class.invalid]="hasError('location', 'required')"
+      >
+      @if (hasError('location', 'required')) {
+        <span class="error-text">Le lieu est obligatoire</span>
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="latitude">Latitude *</label>
+        <input
+          type="number"
+          id="latitude"
+          formControlName="latitude"
+          placeholder="Ex: 48.8566"
+          step="any"
+          [class.invalid]="hasError('latitude', 'required') || hasError('latitude', 'pattern')"
+        >
+        @if (hasError('latitude', 'required')) {
+          <span class="error-text">La latitude est obligatoire</span>
+        }
+        @if (hasError('latitude', 'pattern')) {
+          <span class="error-text">La latitude doit être un nombre valide</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="longitude">Longitude *</label>
+        <input
+          type="number"
+          id="longitude"
+          formControlName="longitude"
+          placeholder="Ex: 2.3522"
+          step="any"
+          [class.invalid]="hasError('longitude', 'required') || hasError('longitude', 'pattern')"
+        >
+        @if (hasError('longitude', 'required')) {
+          <span class="error-text">La longitude est obligatoire</span>
+        }
+        @if (hasError('longitude', 'pattern')) {
+          <span class="error-text">La longitude doit être un nombre valide</span>
+        }
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="photoUrl">Photo (URL)</label>
+      <input
+        type="url"
+        id="photoUrl"
+        formControlName="photoUrl"
+        placeholder="Ex: https://example.com/photo.jpg"
+      >
+      <small>Optionnel - URL de la photo de la pollution</small>
+    </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="onCancel()" class="btn btn-secondary">
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="loading()">
+          {{ loading() ? 'Enregistrement...' : (isEditMode ? 'Modifier' : 'Déclarer') }}
+        </button>
+      </div>
+    </form>
+  }
+
+  @if (!showForm() && submittedPollution()) {
+    <app-pollution-recap
+      [pollution]="submittedPollution()!"
+      (backToList)="onBackToList()" />
+  }
+</div>

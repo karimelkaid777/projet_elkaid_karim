@@ -1,0 +1,38 @@
+<div class="user-list-container">
+  <div class="header">
+    <h2>Liste des utilisateurs</h2>
+    <a routerLink="/users/signup" class="btn-add">+ Créer un utilisateur</a>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">
+      <p>Chargement des utilisateurs...</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="error-message">
+      {{ error() }}
+    </div>
+  }
+
+  @if (!loading() && !error()) {
+    <div class="users-grid">
+      @for (user of users(); track user.id) {
+        <div class="user-card">
+          <div class="user-info">
+            <h3>{{ user.nom }} {{ user.prenom }}</h3>
+            <p class="user-login">@{{ user.login }}</p>
+            <p class="user-email">{{ user.email }}</p>
+            <p class="user-id">ID: {{ user.id }}</p>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <p>Aucun utilisateur trouvé</p>
+          <a routerLink="/users/signup" class="btn-create">Créer le premier utilisateur</a>
+        </div>
+      }
+    </div>
+  }
+</div>
